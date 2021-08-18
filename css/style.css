@@ -1,0 +1,10 @@
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#game {
+    background-color: rgb(241, 243, 232);
+    border: 6px solid rgb(201, 186, 129);
+}
