@@ -188,6 +188,8 @@ function draw() {
             }
         }
     }
+
+    // gameLoop for key movements 
     if (rightPressed && paddleX < game.width - paddleWidth) {
         paddleX += 7;
         // how many incremenets the paddle will move

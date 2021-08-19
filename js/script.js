@@ -17,33 +17,34 @@ let player2;
 
 // CREATE PLAYERSs
 class Player {
-    constructor(color) {
+    constructor(color,x,y) {
         this.color = color;
         this.x = x;
         this.y = y;
         this.paddleWidth = 100;
         this.paddleHeight = 20;
 
+      
         this.render = () => {
             ctx.beginPath();
             ctx.fillStyle = this.color;
-            ctx.rect((game.width - this.paddleWidth)/2, game.height - 30, this.paddleWidth, this.paddleHeight);
+            ctx.rect(this.x, this.y, this.paddleWidth, this.paddleHeight);
             ctx.fill();
             ctx.closePath();
         }  
     }
 }
 
-class newPlayer extends Player {
-    constructor(color){
-        super(color);
-        this.render = () => {
-            ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.rect((game.width - this.paddleWidth)/2, 10, this.paddleWidth, this.paddleHeight);
-            ctx.fill();
-            ctx.closePath();
-        }
+class NewPlayer extends Player {
+    constructor(color,x,y) {
+        super(color,x,y);
+        // this.render = () => {
+        //     ctx.beginPath();
+        //     ctx.fillStyle = this.color;
+        //     ctx.rect((game.width - this.paddleWidth)/2, 10, this.paddleWidth, this.paddleHeight);
+        //     ctx.fill();
+        //     ctx.closePath();
+        // }
     }
 
   
@@ -65,18 +66,19 @@ function gameLoop () {
 //    movementDisplay.textContent = `x: ${hero.x}\n y:${hero.y}`;
    // is the ogre alive??        
 //    if (shrek.alive) {
-       player1.render();
 //        // check collison 
 //        let hit = detectHit(hero, shrek);
 //    }
+    player1.render();
    player2.render();
    drawBall();
 }
+
 // ADDMOVEMENT TO PADDLES
 
 function movementHandler(e) {
     // you can track the keystrokes http://keycode.info/
-    console.log(e.key);
+    // console.log(e.key);
     console.log('player 1 :', player1.x);
     // console.log('player 2 :', player2.x);
 
@@ -92,23 +94,26 @@ function movementHandler(e) {
             player1.x + 10 <= game.width ? player1.x += 10 : null; 
             break;
         // A - 65 : LEFT PLAYER 2
-        // case 65:
-        //     player2.x - 10 >= 0 ? player2.x -= 10 : null; 
-        //     break;
-        // // D - 68 : RIGHT PLAYER 2
-        // case 68:
-        //     player2.x + 10 <= game.width ? player2.x += 10 : null; 
-        //     break;
+        case 65:
+            player2.x - 10 >= 0 ? player2.x -= 10 : null; 
+            break;
+        // D - 68 : RIGHT PLAYER 2
+        case 68:
+            player2.x + 10 <= game.width ? player2.x += 10 : null; 
+            break;
     }
-        // console.log(e.which); 
+   
 } 
+
+
+
 
 document.addEventListener("DOMContentLoaded", e => {
     console.log('app.js is connected');
-    player1 = new Player('blue');
-    player2 = new newPlayer('green');
-    
-    drawBall();
+    player1 = new Player('blue', 250, 570);
+    player2 = new NewPlayer('green', 250, 10);
     const runGame = setInterval(gameLoop, 100);
+    
+    document.addEventListener('keydown', movementHandler);
+
 });
-document.addEventListener('keydown', movementHandler);
