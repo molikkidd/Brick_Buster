@@ -21,7 +21,7 @@ let score = 0;
 // Dang, Can I live?
 let lives = 3;
 let player1; 
-let player2; 
+// let player2; 
 // movement display
 let liveScore = document.getElementById('liveScore');
 console.log(liveScore);
@@ -45,7 +45,6 @@ const bricks = [];
 game.setAttribute('width', 600);
 game.setAttribute('height', 600);
 
-// ====================== ENTITIES ======================= //
 var x = game.width/2;
 var y = game.height-30;
 // increments that ball moves/ in pixels
@@ -81,6 +80,25 @@ function collisionDetection() {
         }  
     }
 }
+// ====================== ENTITIES ======================= //
+class Player {
+    constructor(color) {
+        // this.x = x;
+        // this.y = y;
+        this.color = color;
+        // this.width = width;
+        // this.height = height;
+        // this.alive = true
+       this.render = () => {
+            // ctx.beginPath();
+            ctx.fillStyle = this.color;
+            ctx.rect(this.paddleX, game.height - this.paddleHeight, this.paddleWidth, this.paddleHeight);
+            ctx.fill();
+            // ctx.closePath();
+       }  
+    }
+}
+
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -88,15 +106,15 @@ function drawBall() {
     ctx.fill();
     ctx.closePath();
 }
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, game.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "red";
-    ctx.fill();
-    ctx.closePath();
-}
+// function drawPaddle() {
+//     ctx.beginPath();
+//     ctx.rect(paddleX, game.height-paddleHeight, paddleWidth, paddleHeight);
+//     ctx.fillStyle = "red";
+//     ctx.fill();
+//     ctx.closePath();
+// }
 function drawBricks() {       
-    for(let c = 0; c<brickColumnCount; c++) {
+    for(let c = 0; c < brickColumnCount; c++) {
         for(let r = 0; r<brickRowCount; r++) {
             if(bricks[c][r].status == 1) {
                 let brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
@@ -125,13 +143,13 @@ function drawLives() {
 function drawPlayers() {
     ctx.font ='16px Arial';
     ctx.fillStyle = 'green';
-    ctx.fillText('Player: ' + player1, 8, game.height -20)
+    ctx.fillText('Player: ' + player1, 8, game.height - 20)
 }
 function draw() {
     ctx.clearRect(0, 0, game.width, game.height);
     drawBall();
     drawBricks();
-    drawPaddle();
+    // drawPaddle();
     drawScore();
     drawLives();
     drawPlayers();
@@ -240,11 +258,13 @@ function mouseMoveHandler (e) {
 
 // // ====================== PAINT INTIAL SCREEN ======================= //
 document.addEventListener('DOMContentLoaded', e => {
+    playa1 = new Player('blue');
+    console.log(playa1.render());
+    playa1.render();
+
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
-
- 
 });
 
 
