@@ -1,11 +1,3 @@
-document.addEventListener("DOMContentLoaded", e => {
-    console.log('app.js is connected');
-    mo = new Player('blue', 300, 500);
-    opp = new newPlayer('green', 30, 250)
-    mo.render();
-    opp.render();
-})
-
 
 const game = document.getElementById('game');
 const ctx = game.getContext('2d');
@@ -14,10 +6,18 @@ const ctx = game.getContext('2d');
 // let paddleHeight = 10;
 // let paddleWidth = 100;
 // let paddleX = (game.width-paddleWidth)/2;
+let ballRadius = 10;
+let x = game.width/2;
+let y = game.height/2;
+let dx = -2;
+let dy = 2;
+let player1;
+let player2;
 
-// CREATE PLAYERS
+
+// CREATE PLAYERSs
 class Player {
-    constructor(color,x,y,paddleWidth,paddleHeight) {
+    constructor(color) {
         this.color = color;
         this.x = x;
         this.y = y;
@@ -35,12 +35,12 @@ class Player {
 }
 
 class newPlayer extends Player {
-    constructor(color,x,y,paddleWidth,paddleHeight){
-        super(color,x,y,paddleWidth,paddleHeight);
+    constructor(color){
+        super(color);
         this.render = () => {
             ctx.beginPath();
             ctx.fillStyle = this.color;
-            ctx.rect((game.width - this.paddleWidth)/2, 30, this.paddleWidth, this.paddleHeight);
+            ctx.rect((game.width - this.paddleWidth)/2, 10, this.paddleWidth, this.paddleHeight);
             ctx.fill();
             ctx.closePath();
         }
@@ -52,7 +52,63 @@ class newPlayer extends Player {
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "red";
     ctx.fill();
     ctx.closePath();
 }
+
+// GAMELOOP
+function gameLoop () {
+    ctx.clearRect(0,0, game.width, game.height);
+   //  add score
+   // display x and y coordinates of hero
+//    movementDisplay.textContent = `x: ${hero.x}\n y:${hero.y}`;
+   // is the ogre alive??        
+//    if (shrek.alive) {
+       player1.render();
+//        // check collison 
+//        let hit = detectHit(hero, shrek);
+//    }
+   player2.render();
+   drawBall();
+}
+// ADDMOVEMENT TO PADDLES
+
+function movementHandler(e) {
+    // you can track the keystrokes http://keycode.info/
+    console.log(e.key);
+    console.log('player 1 :', player1.x);
+    // console.log('player 2 :', player2.x);
+
+// use swtich to change between the directions
+    switch(e.which) {
+        // Left Arrow - 37 : LEFT PLAYER 1
+        case 37:
+            console.log('moving left');
+            player1.x - 10 >= 0 ? player1.x -= 10 : null; 
+            break;
+        // Right Arrow - 39 : PLAYER 1
+        case 39:
+            player1.x + 10 <= game.width ? player1.x += 10 : null; 
+            break;
+        // A - 65 : LEFT PLAYER 2
+        // case 65:
+        //     player2.x - 10 >= 0 ? player2.x -= 10 : null; 
+        //     break;
+        // // D - 68 : RIGHT PLAYER 2
+        // case 68:
+        //     player2.x + 10 <= game.width ? player2.x += 10 : null; 
+        //     break;
+    }
+        // console.log(e.which); 
+} 
+
+document.addEventListener("DOMContentLoaded", e => {
+    console.log('app.js is connected');
+    player1 = new Player('blue');
+    player2 = new newPlayer('green');
+    
+    drawBall();
+    const runGame = setInterval(gameLoop, 100);
+});
+document.addEventListener('keydown', movementHandler);
