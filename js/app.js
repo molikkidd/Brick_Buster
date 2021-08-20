@@ -23,7 +23,7 @@ let lives = 3;
 let player1; 
 // let player2; 
 // movement display
-let liveScore = document.getElementById('liveScore');
+let liveScore = document.getElementById('p1Lives');
 console.log(liveScore);
 
 const bricks = [];
@@ -157,6 +157,7 @@ function draw() {
             // document.location.reload();
             // clearInterval(interval);
             lives--;
+            
             if(!lives) {
                 alert('You done, pack up it up, go home');
                 document.location.reload();
