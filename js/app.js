@@ -81,23 +81,6 @@ function collisionDetection() {
     }
 }
 // ====================== ENTITIES ======================= //
-class Player {
-    constructor(color) {
-        // this.x = x;
-        // this.y = y;
-        this.color = color;
-        // this.width = width;
-        // this.height = height;
-        // this.alive = true
-       this.render = () => {
-            // ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.rect(this.paddleX, game.height - this.paddleHeight, this.paddleWidth, this.paddleHeight);
-            ctx.fill();
-            // ctx.closePath();
-       }  
-    }
-}
 
 function drawBall() {
     ctx.beginPath();
@@ -106,13 +89,13 @@ function drawBall() {
     ctx.fill();
     ctx.closePath();
 }
-// function drawPaddle() {
-//     ctx.beginPath();
-//     ctx.rect(paddleX, game.height-paddleHeight, paddleWidth, paddleHeight);
-//     ctx.fillStyle = "red";
-//     ctx.fill();
-//     ctx.closePath();
-// }
+function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, game.height-paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.closePath();
+}
 function drawBricks() {       
     for(let c = 0; c < brickColumnCount; c++) {
         for(let r = 0; r<brickRowCount; r++) {
@@ -149,7 +132,7 @@ function draw() {
     ctx.clearRect(0, 0, game.width, game.height);
     drawBall();
     drawBricks();
-    // drawPaddle();
+    drawPaddle();
     drawScore();
     drawLives();
     drawPlayers();
@@ -260,9 +243,9 @@ function mouseMoveHandler (e) {
 
 // // ====================== PAINT INTIAL SCREEN ======================= //
 document.addEventListener('DOMContentLoaded', e => {
-    playa1 = new Player('blue');
-    console.log(playa1.render());
-    playa1.render();
+    // playa1 = new Player('blue');
+    // console.log(playa1.render());
+    // playa1.render();
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);

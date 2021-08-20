@@ -7,15 +7,16 @@ const ctx = game.getContext('2d');
 // let paddleWidth = 100;
 // let paddleX = (game.width-paddleWidth)/2;
 let ballRadius = 10;
-let x = game.width/2;
-let y = game.height/2;
-let dx = -2;
-let dy = 2;
+let x = game.width/4;
+let y = game.height-40;
+let paddleCenter = (game.width - 100)/2;
+let dx = 2;
+let dy = -2;
 let player1;
 let player2;
 
 
-// CREATE PLAYERSs
+// CREATE PLAYERS
 class Player {
     constructor(color,x,y) {
         this.color = color;
@@ -35,20 +36,6 @@ class Player {
     }
 }
 
-class NewPlayer extends Player {
-    constructor(color,x,y) {
-        super(color,x,y);
-        // this.render = () => {
-        //     ctx.beginPath();
-        //     ctx.fillStyle = this.color;
-        //     ctx.rect((game.width - this.paddleWidth)/2, 10, this.paddleWidth, this.paddleHeight);
-        //     ctx.fill();
-        //     ctx.closePath();
-        // }
-    }
-
-  
-}
 // CREATE BALL
 function drawBall() {
     ctx.beginPath();
@@ -56,6 +43,74 @@ function drawBall() {
     ctx.fillStyle = "red";
     ctx.fill();
     ctx.closePath();
+    
+}
+
+// MOVE THE PLAYERS
+function movementHandler(e) {
+    // you can track the keystrokes http://keycode.info/
+    // console.log(e.key);
+    // console.log('player 1 :', player1.x);
+    // // console.log('player 2 :', player2.x);
+
+// use swtich to change between the directions
+    switch(e.which) {
+        // Left Arrow - 37 : LEFT PLAYER 1
+        case 37:
+            console.log('moving left');
+            player1.x - 10 >= 0 ? player1.x -= 20 : null; 
+            break;
+        // Right Arrow - 39 : PLAYER 1
+        case 39:
+            player1.x + 10 <= game.width ? player1.x += 20 : null; 
+            break;
+        // A - 65 : LEFT PLAYER 2a
+        case 65:
+            player2.x - 10 >= 0 ? player2.x -= 20 : null; 
+            break;
+        // D - 68 : RIGHT PLAYER 2
+        case 68:
+            player2.x + 10 <= game.width ? player2.x += 20 : null; 
+            break;
+    }
+   
+} 
+// MOVE THE BALL
+function ballMovement() {
+    // LEFT AND RIGHT BOUNDARIES
+    if(x + dx > game.width-ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+    } else if( y + dy < ballRadius || y + dy > game.height-ballRadius) {
+        // if the y position of the ball + the incremental change is greater
+        if(x > player2.x && x < player2.x + 100 || x > player1.x && x < player1.x + 100) {
+            // if the ball hits the paddle then go in opposite direction
+            // console.log(x);
+            console.log(player1.x);
+            console.log(player2.x) //250 
+            dy = -dy;
+        } else {
+            // otherwise game over
+            alert('GAME OVER');
+            document.location.reload();
+            // clearInterval(runGame);
+            // lives--;
+            // if(!lives) {
+            //     alert('You done, pack up it up, go home');
+            //     document.location.reload();
+            //     clearInterval(interval);
+            // } else {
+            //     // reseting the movement of the ball after lost of life
+            //     x = game.width/2;
+            //     y = game.height - 30;
+            //     dx = 2;
+            //     dy = -2;
+            //     paddleX = (game.width - paddleWidth)/2;
+            }
+            
+        // reverse the direction the ball came in.     
+            
+        }
+        
 }
 
 // GAMELOOP
@@ -70,40 +125,15 @@ function gameLoop () {
 //        let hit = detectHit(hero, shrek);
 //    }
     player1.render();
-   player2.render();
-   drawBall();
+    player2.render();
+    drawBall();
+    x += dx;
+    y += dy;
+    ballMovement();
+  
 }
 
-// ADDMOVEMENT TO PADDLES
 
-function movementHandler(e) {
-    // you can track the keystrokes http://keycode.info/
-    // console.log(e.key);
-    console.log('player 1 :', player1.x);
-    // console.log('player 2 :', player2.x);
-
-// use swtich to change between the directions
-    switch(e.which) {
-        // Left Arrow - 37 : LEFT PLAYER 1
-        case 37:
-            console.log('moving left');
-            player1.x - 10 >= 0 ? player1.x -= 10 : null; 
-            break;
-        // Right Arrow - 39 : PLAYER 1
-        case 39:
-            player1.x + 10 <= game.width ? player1.x += 10 : null; 
-            break;
-        // A - 65 : LEFT PLAYER 2
-        case 65:
-            player2.x - 10 >= 0 ? player2.x -= 10 : null; 
-            break;
-        // D - 68 : RIGHT PLAYER 2
-        case 68:
-            player2.x + 10 <= game.width ? player2.x += 10 : null; 
-            break;
-    }
-   
-} 
 
 
 
@@ -111,8 +141,8 @@ function movementHandler(e) {
 document.addEventListener("DOMContentLoaded", e => {
     console.log('app.js is connected');
     player1 = new Player('blue', 250, 570);
-    player2 = new NewPlayer('green', 250, 10);
-    const runGame = setInterval(gameLoop, 100);
+    player2 = new Player('green', 250, 10);
+    const runGame = setInterval(gameLoop, 10);
     
     document.addEventListener('keydown', movementHandler);
 
