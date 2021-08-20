@@ -1,10 +1,106 @@
 body {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
+    background-color: rgb(29, 28, 25);
+    align-items: center;
+
 }
 
 #game {
+    
+    background-image:url('/Users/mzk/Desktop/Unit-1-project/Brick_Buster/img/sm_5b4af12081953.jpg');
+    background-size: cover;
+    border: 15px solid rgb(223, 220, 208);
+    border-radius: 10px;
+
+}
+
+#top-left,#top-right {
     background-color: rgb(241, 243, 232);
-    border: 6px solid rgb(201, 186, 129);
+    border: 5px solid rgb(223, 220, 208);
+    border-radius: 10px;
+    width: 45%;
+    text-align: center;
+}
+
+#top-left {
+    align-self: flex-end;
+}
+#leftMenu {
+    background-color: rgb(181, 184, 167);
+    width: 300px;
+    margin: 20px;
+    padding: 10px;
+    border: 15px solid rgb(223, 220, 208);
+    border-radius: 10px;
+
+}
+
+.switch-field {
+	display: flex;
+	margin-bottom: 36px;
+	overflow: hidden;
+}
+
+.switch-field input {
+	position: absolute !important;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	width: 1px;
+	border: 0;
+	overflow: hidden;
+}
+
+.switch-field label {
+	background-color: #e4e4e4;
+	color: rgba(0, 0, 0, 0.6);
+	font-size: 14px;
+	line-height: 1;
+	text-align: center;
+	padding: 8px 16px;
+	margin-right: -1px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+	transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+	cursor: pointer;
+}
+
+.switch-field input:checked + label {
+	background-color: #a5dc86;
+	box-shadow: none;
+}
+
+/* .switch-field label:first-of-type {
+	border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+	border-radius: 0 4px 4px 0;
+} */
+
+/* This is just for CodePen. */
+
+.form {
+	max-width: 600px;
+	font-family: "copperplate";
+	font-weight: normal;
+	line-height: 1.625;
+	margin: 8px auto;
+	padding: 16px;
+}
+
+h2 {
+	font-size: 18px;
+	margin-bottom: 8px;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bolder;
+    font-family: copperplate;
+    text-align: center;
 }

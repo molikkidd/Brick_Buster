@@ -183,27 +183,29 @@ function collisionDetection() {
 }
 // GAMELOOP
 
-function gameLoop () {
-    ctx.clearRect(0,0, game.width, game.height);
+// function gameLoop () {
+//     ctx.clearRect(0,0, game.width, game.height);
  
-    player1.render();
-    player2.render();
-    drawBricks();
-    drawBall();
-    x += dx;
-    y += dy;
-    ballMovement();
-    bricksTotal();
-    collisionDetection();
+//     player1.render();
+//     player2.render();
+//     drawBricks();
+//     drawBall();
+//     x += dx;
+//     y += dy;
+//     ballMovement();
+//     bricksTotal();
+//     collisionDetection();
 
-    p2LiveScore.textContent = `PLAYER 2: ${p1Lives}`; 
-    p1LiveScore.textContent = `PLAYER 1: ${p2Lives}`;
-}
+//     p2LiveScore.textContent = `PLAYER 2: ${p1Lives}`; 
+//     p1LiveScore.textContent = `PLAYER 1: ${p2Lives}`;
+// }
 
-const runGame = setInterval(gameLoop, 10);
+// const runGame = setInterval(gameLoop, 10);
+
+
 
 document.addEventListener("DOMContentLoaded", e => {
-    console.log('app.js is connected');
+    // console.log('app.js is connected');
     player1 = new Player('blue', 250, 570);
     player2 = new Player('green', 250, 10);
     // const runGame = setInterval(gameLoop, 10);
@@ -214,6 +216,7 @@ document.addEventListener("DOMContentLoaded", e => {
 document.addEventListener('keydown', movementHandler);
 
 
+    
 
 
  
