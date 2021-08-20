@@ -86,28 +86,23 @@ function drawBricks() {
 // MOVE THE PLAYERS
 function movementHandler(e) {
     // you can track the keystrokes http://keycode.info/
-    // console.log(e.key);
-    // console.log('player 1 :', player1.x);
-    // // console.log('player 2 :', player2.x);
-
 // use swtich to change between the directions
     switch(e.which) {
         // Left Arrow - 37 : LEFT PLAYER 1
         case 37:
-            console.log('moving left');
-            player1.x - 10 >= 0 ? player1.x -= 20 : null; 
+            player1.x - 10 >= 0 ? player1.x -= 30 : null; 
             break;
         // Right Arrow - 39 : PLAYER 1
         case 39:
-            player1.x + 10 <= game.width ? player1.x += 20 : null; 
+            player1.x + 10 <= game.width ? player1.x += 30 : null; 
             break;
         // A - 65 : LEFT PLAYER 2a
         case 65:
-            player2.x - 10 >= 0 ? player2.x -= 20 : null; 
+            player2.x - 10 >= 0 ? player2.x -= 30 : null; 
             break;
         // D - 68 : RIGHT PLAYER 2
         case 68:
-            player2.x + 10 <= game.width ? player2.x += 20 : null; 
+            player2.x + 10 <= game.width ? player2.x += 30 : null; 
             break;
     }
    
@@ -125,21 +120,15 @@ function ballMovement() {
             // console.log(x);
             dy = -dy;
         } else {
-            // otherwise game over
-            // alert('GAME OVER');
-            // document.location.reload();
-            // clearInterval(runGame);
-    
             p2Lives++;
-            // p2Lives--;
     
             if(p2Lives === 3) {
                 alert('PLAYA PLAYER WINNER #1');
                 document.location.reload();
                 clearInterval(runGame);
             } else {    
-                x = game.width/2;
-                y = game.height - 30;
+                x = game.width/3;
+                y = game.height - 50;
                 dx = 2;
                 dy = -2;
                 paddleCenter = (game.width - 100)/2;
@@ -154,11 +143,6 @@ function ballMovement() {
             // console.log(x);
             dy = -dy;
         } else {
-            // otherwise game over
-            // alert('GAME OVER');
-            // document.location.reload();
-            // clearInterval(runGame);
-    
             p1Lives++;
             // p2Lives--;
     
@@ -167,14 +151,12 @@ function ballMovement() {
                 document.location.reload();
                 clearInterval(runGame);
             } else {    
-                x = game.width/2;
-                y = game.height - 30;
+                x = game.width/4;
+                y = game.height-100;
                 dx = 2;
                 dy = -2;
                 paddleCenter = (game.width - 100)/2;
-            }    
-        // reverse the direction the ball came in.     
-            
+            }                
         }
     } 
 }
@@ -193,12 +175,6 @@ function collisionDetection() {
                 if(x > b.x && x < b.x + brickWidth && y > b.y && y <b.y + brickHeight) {
                     dy = -dy;
                     b.status = 1;
-                    bricksLeft--;
-                    if(bricksLeft == brickRowCount*brickColumnCount) {
-                        // alert('you win, congrats');
-                        document.location.reload();
-                        clearInterval(runGame);
-                    }
                     console.log("hit a brick");
                 }
             }
@@ -230,12 +206,12 @@ document.addEventListener("DOMContentLoaded", e => {
     console.log('app.js is connected');
     player1 = new Player('blue', 250, 570);
     player2 = new Player('green', 250, 10);
-    const runGame = setInterval(gameLoop, 10);
+    // const runGame = setInterval(gameLoop, 10);
     
-    document.addEventListener('keydown', movementHandler);
 
 });
 
+document.addEventListener('keydown', movementHandler);
 
 
 
