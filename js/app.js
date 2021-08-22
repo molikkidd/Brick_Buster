@@ -23,8 +23,9 @@ let lives = 3;
 let player1; 
 // let player2; 
 // movement display
-let liveScore = document.getElementById('p1Lives');
-console.log(liveScore);
+let p1Lives = document.getElementById('p1Lives');
+let liveScore = document.getElementById('liveScore');
+
 
 const bricks = [];
     for (let c = 0; c < brickColumnCount; c++) {
@@ -74,7 +75,7 @@ function collisionDetection() {
                         document.location.reload();
                         clearInterval(interval);
                     }
-                    console.log("hit a brick");
+                    // console.log("hit a brick");
                 }
             }
         }  
@@ -113,32 +114,17 @@ function drawBricks() {
         }
     }
 }
-function drawScore() {
-    ctx.font = '16px Arial';
-    ctx.fillStyle = 'green';
-    ctx.fillText('Score: '+ score, 8, 20);
-}
-function drawLives() {
-    ctx.font = '16px Arial';
-    ctx.fillStyle = 'green';
-    ctx.fillText('Lives: '+ lives, game.width - 65, 20);
-}
-function drawPlayers() {
-    ctx.font ='16px Arial';
-    ctx.fillStyle = 'green';
-    ctx.fillText('Player: ' + player1, 8, game.height - 20)
-}
+
+
 function draw() {
     ctx.clearRect(0, 0, game.width, game.height);
     drawBall();
     drawBricks();
     drawPaddle();
-    drawScore();
-    drawLives();
-    drawPlayers();
     collisionDetection();
 
-    liveScore.textContent = 'Lives : ' + lives;
+    liveScore.textContent = 'SCORE: ' + score;
+    p1Lives.textContent = 'LIVES: ' + lives;
 
     if(x + dx > game.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
@@ -157,11 +143,11 @@ function draw() {
             // document.location.reload();
             // clearInterval(interval);
             lives--;
-            
+
             if(!lives) {
-                alert('You done, pack up it up, go home');
-                document.location.reload();
                 clearInterval(interval);
+                gameOver();
+                
             } else {
                 // reseting the movement of the ball after lost of life
                 x = game.width/2;
@@ -194,18 +180,10 @@ function draw() {
 } 
 let interval = setInterval(draw, 5);
 
-
-
 // // ====================== HELPER FUNCTIONS ======================= //
 // // SANDBOX FOR TESTING PAINTING TECHNIQUES
 
-
-
-
 // //  GUI
-// function addNewShrek() {
-
-// }
 
 // //  KEYBOARD INTERACTION LOGIC
 let rightPressed = false;
@@ -232,6 +210,35 @@ function mouseMoveHandler (e) {
         paddleX = relativeX - paddleWidth/2;
     }
 }
+
+// start and reset buttons
+function startGame(e) {
+
+    if(!e) {
+        clearInterval(interval);
+        return;
+    } else if (e.srcElement.localName === 'a'){
+        setInterval(draw,5)
+    } else {
+        return;
+    }
+
+    let startDiv = document.getElementById('start');
+    let gameOver = document.getElementById('game-over');
+        startDiv.style.display = 'none';
+        gameOver.style.display = 'none';
+}
+
+function gameOver() {
+    
+    let gameOver = document.getElementById('game-over');
+        gameOver.style.display = 'block';
+        score = 0;
+        lives = 3;
+    
+    
+}
+
 // // ====================== GAME PROCESSES ======================= //
 //     /**
 //      * @function gameLoop
@@ -242,16 +249,18 @@ function mouseMoveHandler (e) {
 //      */
 
 
+
+
 // // ====================== PAINT INTIAL SCREEN ======================= //
 document.addEventListener('DOMContentLoaded', e => {
-    // playa1 = new Player('blue');
-    // console.log(playa1.render());
-    // playa1.render();
-
+    document.addEventListener('click', startGame);
+    startGame();
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
+
 });
+
 
 
 // CODE STASH FOR OLD CODE

@@ -23,10 +23,10 @@ let brickRowCount = 2;
 let brickColumnCount = 3;
 let brickWidth = 100;
 let brickHeight = 30;
-let brickPadding = 100;
-let brickOffsetTop = game.height/3;
-let brickOffsetLeft = 30;
-let bricksLeft = 5;
+let brickPadding = 120;
+let brickOffsetTop = game.height/3.33;
+let brickOffsetLeft = 40;
+let bricksLeft = 6;
 
 const bricks = [];
     for (let c = 0; c < brickColumnCount; c++) {
@@ -94,7 +94,7 @@ function movementHandler(e) {
             break;
         // Right Arrow - 39 : PLAYER 1
         case 39:
-            player1.x + 10 <= game.width ? player1.x += 30 : null; 
+            player1.x + 10 <= game.width - 100 ? player1.x += 30 : null; 
             break;
         // A - 65 : LEFT PLAYER 2a
         case 65:
@@ -102,15 +102,16 @@ function movementHandler(e) {
             break;
         // D - 68 : RIGHT PLAYER 2
         case 68:
-            player2.x + 10 <= game.width ? player2.x += 30 : null; 
+            player2.x + 10 <= game.width - 100 ? player2.x += 30 : null; 
             break;
     }
    
 } 
+
 // MOVE THE BALL
 function ballMovement() {
     // LEFT AND RIGHT BOUNDARIES
-    if(x + dx > game.width-ballRadius || x + dx < ballRadius) {
+    if(x + dx > game.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
     } 
 
@@ -183,26 +184,26 @@ function collisionDetection() {
 }
 // GAMELOOP
 
-// function gameLoop () {
-//     ctx.clearRect(0,0, game.width, game.height);
+function gameLoop () {
+    ctx.clearRect(0,0, game.width, game.height);
  
-//     player1.render();
-//     player2.render();
-//     drawBricks();
-//     drawBall();
-//     x += dx;
-//     y += dy;
-//     ballMovement();
-//     bricksTotal();
-//     collisionDetection();
+    player1.render();
+    player2.render();
+    drawBricks();
+    drawBall();
+    x += dx;
+    y += dy;
+    ballMovement();
+    bricksTotal();
+    collisionDetection();
 
-//     p2LiveScore.textContent = `PLAYER 2: ${p1Lives}`; 
-//     p1LiveScore.textContent = `PLAYER 1: ${p2Lives}`;
-// }
+    p2LiveScore.textContent = `PLAYER 2: ${p1Lives}`; 
+    p1LiveScore.textContent = `PLAYER 1: ${p2Lives}`;
+}
 
-// const runGame = setInterval(gameLoop, 10);
+const runGame = setInterval(gameLoop, 10);
 
-
+// SWITCH GAME FOR 2 PLAYERS
 
 document.addEventListener("DOMContentLoaded", e => {
     // console.log('app.js is connected');
