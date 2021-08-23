@@ -23,7 +23,9 @@ let brickOffsetLeft = 30;
 // score
 let score = 0;
 // Dang, Can I live?
-let lives = 3;
+let lives = 1;
+let tick;
+let gameEnd = false;
 // ball coordinates
 var x = game.width/2;
 var y = game.height-30;
@@ -211,9 +213,9 @@ function draw() {
     y += dy;
     // creates loop like setInterval except a browser friendly method
     // for smoother animation.  
-    requestAnimationFrame(draw);
+    // requestAnimationFrame(draw);
 } 
-// draw();
+draw();
 
 // // ====================== HELPER FUNCTIONS ======================= //
 //     /**
@@ -233,35 +235,36 @@ function startGame(e) {
     if(!e) {
         return;
     } else if (e.srcElement.localName === 'a'){
-        requestAnimationFrame(draw)
-    } else {
-        return;
-    }
-// Remove Div "Start Game" Overlay
+        let runGame = setInterval(draw,5);
+        // requestAnimationFrame(draw)
+        // Remove Div "Start Game" Overlay
     let startDiv = document.getElementById('start');
     let gameOver = document.getElementById('game-over');
         startDiv.style.display = 'none';
         gameOver.style.display = 'none';
+        return runGame;
+    } else {
+        return;
+    }
 }
 
 function gameOver() {
-    // stop the animation
-    ctx.clearRect(0,0, game.width, game.height);
 
-    cancelAnimationFrame(draw);
-    // display GameOver modal
-    let gameOver = document.getElementById('game-over');
-        gameOver.style.display = 'block';
-    // reset the game
-        score = 0;
-        lives = 3;
-        drawBall();
-        drawBricks();
-        drawPaddle();
-        collisionDetection();
-    // start the game over
-        startGame();
+    //  // reset the game
+    x = game.width/3;
+    y = game.height-80;
+    score = 0;
+    lives = 1;
+    // clear canvas screen
+    ctx.clearRect(0,0, game.width, game.height);
+    clearInterval(draw);
+    //     //     drawBall();
+    //     //     drawBricks();
+    //     //     drawPaddle();
+    //     // collisionDetection();
 }
+
+
 
 // // ====================== PAINT INTIAL SCREEN ======================= //
 document.addEventListener('DOMContentLoaded', e => {
