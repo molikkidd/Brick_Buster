@@ -1,24 +1,33 @@
 
+// ====================== SETUP FOR CANVAS RENDERING ======================= //
+// 2D rendering context for canvas element.
+// It is used for drawing shapes, text, images, and other objects.
+
+// GLOBAL DOM / VARIABLES
 const game = document.getElementById('game');
 const ctx = game.getContext('2d');
 const p1LiveScore = document.getElementById('p1Lives');
 const p2LiveScore = document.getElementById('p2Lives');
     game.setAttribute('width', 600);
     game.setAttribute('height', 600);
-// let paddleHeight = 10;
-// let paddleWidth = 100;
+let paddleHeight = 20;
+let paddleWidth = 100;
 // let paddleX = (game.width-paddleWidth)/2;
+let paddleCenter = (game.width - 100)/2;
+// ball dimensions
 let ballRadius = 10;
+// ball starting point
 let x = game.width/2;
 let y = game.height-40;
-let paddleCenter = (game.width - 100)/2;
+// ball movements increments per frame
 let dx = 2;
 let dy = -2;
+// players
 let player1;
 let player2;
-let p1Lives = 0;
-let p2Lives = 0;
-// Brick variables
+let p1Score = 0;
+let p2Score = 0;
+// Brick dimensions
 let brickRowCount = 2;
 let brickColumnCount = 3;
 let brickWidth = 100;
@@ -27,7 +36,7 @@ let brickPadding = 120;
 let brickOffsetTop = game.height/3.33;
 let brickOffsetLeft = 40;
 let bricksLeft = 6;
-
+// Brick layout
 const bricks = [];
     for (let c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
@@ -35,6 +44,16 @@ const bricks = [];
             bricks[c][r] = { x: 0, y:0, status: 1};
         } 
 }
+
+let runGame;
+// ====================== ENTITIES ======================= //
+//**
+//  * @create player constructor
+//  * @create {object<ball>}
+//  * @create {object<brick>}
+//  * @todo assign X and Y coordinates to brick
+//  * @todo create brick and choose color
+//  */
 
 // CREATE PLAYERS
 class Player {
@@ -45,7 +64,6 @@ class Player {
         this.paddleWidth = 100;
         this.paddleHeight = 20;
 
-      
         this.render = () => {
             ctx.beginPath();
             ctx.fillStyle = this.color;
@@ -55,7 +73,6 @@ class Player {
         }  
     }
 }
-
 // CREATE BALL
 function drawBall() {
     ctx.beginPath();
@@ -83,10 +100,19 @@ function drawBricks() {
         }
     }
 }
-// MOVE THE PLAYERS
+// // ====================== GAME PROCESSES ======================= //
+//     /**
+//      * @function gameLoop 
+//      * @todo KeyBoard Logic/ connect keys with player
+//      * @todo create gameloop 
+//      * @todo add liveUpdates: Score
+//      * @todo render the Players
+//      */
+
+// //  KEYBOARD INTERACTION LOGIC
 function movementHandler(e) {
     // you can track the keystrokes http://keycode.info/
-// use swtich to change between the directions
+// players move left or right in 30 px increments
     switch(e.which) {
         // Left Arrow - 37 : LEFT PLAYER 1
         case 37:
@@ -108,65 +134,19 @@ function movementHandler(e) {
    
 } 
 
-// MOVE THE BALL
-function ballMovement() {
-    // LEFT AND RIGHT BOUNDARIES
-    if(x + dx > game.width - ballRadius || x + dx < ballRadius) {
-        dx = -dx;
-    } 
 
-    if( y + dy < ballRadius) {
-        if(x > player2.x && x < player2.x + 100 || x > player2.x && x < player2.x + 100) {
-            // if the ball hits the paddle then go in opposite direction
-            // console.log(x);
-            dy = -dy;
-        } else {
-            p2Lives++;
-    
-            if(p2Lives === 3) {
-                alert('PLAYA PLAYER WINNER #1');
-                document.location.reload();
-                clearInterval(runGame);
-            } else {    
-                x = game.width/3;
-                y = game.height - 50;
-                dx = 2;
-                dy = -2;
-                paddleCenter = (game.width - 100)/2;
-            }    
-        }
-    }   
-    
-    if (y + dy > game.height-ballRadius) {
-        // if the y position of the ball + the incremental change is greater
-        if(x > player1.x && x < player1.x + 100 || x > player1.x && x < player1.x + 100) {
-            // if the ball hits the paddle then go in opposite direction
-            // console.log(x);
-            dy = -dy;
-        } else {
-            p1Lives++;
-            // p2Lives--;
-    
-            if(p1Lives === 3) {
-                alert('PLAYA PLAYER WINNER #2');
-                document.location.reload();
-                clearInterval(runGame);
-            } else {    
-                x = game.width/4;
-                y = game.height-100;
-                dx = 2;
-                dy = -2;
-                paddleCenter = (game.width - 100)/2;
-            }                
-        }
-    } 
-}
-// BRICKS LEFT
-function bricksTotal() {
-    ctx.font = '16px Arial';
-    ctx.fillStyle = 'green';
-    ctx.fillText('Score: '+ bricksLeft, 8, 20);
-}
+
+/// ====================== HELPER FUNCTIONS ======================= //
+//     /**
+//      * @function startGame()
+//      * @function gameOver()
+//      * @todo start on click
+//      * @todo add overlay
+//      * @todo remove overlay
+//      * @todo pop up after game over
+//      * @todo reset game
+//      */
+
 // COLLISION WITH BRICK
 function collisionDetection() {
     for(let c = 0; c < brickColumnCount; c++) {
@@ -182,38 +162,130 @@ function collisionDetection() {
         }  
     }
 }
-// GAMELOOP
 
+// MOVE THE BALL
+function ballBoundaries() {
+    // Left and Right Boundaries
+    if(x + dx > game.width - ballRadius || x + dx < ballRadius) {
+        // if contact go in opposite direction
+        dx = -dx;
+    } 
+    // Top Boundary
+    // Need to refactor to one if else statement
+    if( y + dy < ballRadius) {
+        // if the ball x hits with in the space of the paddle
+        if(x > player2.x && x < player2.x + paddleWidth || x > player2.x && x < player2.x + paddleWidth) {
+            // go in opposite direction
+            dy = -dy;
+        } else {
+            // if ball goes past boundary
+            // add point to player 1
+            p1Score++;
+            // if player scores 3 times
+            if(p1Score === 3) {
+                // alert('PLAYA PLAYER WINNER #1');
+                // document.location.reload();
+                // clearInterval(runGame);
+                startGame();
+
+            } else {    
+                // otherwise reset the ball
+                x = game.width/3;
+                y = game.height - 50;
+                dx = 2;
+                dy = -2;
+                paddleCenter = (game.width - 100)/2;
+            }    
+        }
+    }   
+//    Bottom Boundary
+    if (y + dy > game.height-ballRadius) {
+        // if the ball x hits with in the space of the paddle
+        if(x > player1.x && x < player1.x + 100 || x > player1.x && x < player1.x + 100) {
+            // go in opposite direction
+            dy = -dy;
+        } else {
+            p2Score++;
+            if(p2Score === 3) {
+                // alert('PLAYA PLAYER WINNER #2');
+                // document.location.reload();
+                // clearInterval(runGame);
+                gameOver();
+            } else {    
+                x = game.width/4;
+                y = game.height-100;
+                dx = 2;
+                dy = -2;
+                paddleCenter = (game.width - 100)/2;
+            }                
+        }
+    } 
+}
+// GAMELOOP
 function gameLoop () {
+    // refresh the whole canvas
     ctx.clearRect(0,0, game.width, game.height);
- 
+    // render all entities 
     player1.render();
     player2.render();
     drawBricks();
     drawBall();
+    ballBoundaries();
+    collisionDetection();
     x += dx;
     y += dy;
-    ballMovement();
-    bricksTotal();
-    collisionDetection();
 
-    p2LiveScore.textContent = `PLAYER 2: ${p1Lives}`; 
-    p1LiveScore.textContent = `PLAYER 1: ${p2Lives}`;
+    // update livescore
+    p2LiveScore.textContent = `PLAYER 2: ${p2Score}`; 
+    p1LiveScore.textContent = `PLAYER 1: ${p1Score}`;
 }
 
-const runGame = setInterval(gameLoop, 10);
+// start and reset buttons
+function startGame(e) {
 
-// SWITCH GAME FOR 2 PLAYERS
+    // if no click then return
+    // if clicked on "start game a tag then start" 
+        if(!e) {
+            return;
+        } else if (e.srcElement.localName === 'a'){
+            let runGame = setInterval(gameLoop,5);
+        } else {
+            return;
+        }
 
+        
+    // Remove Div "Start Game" Overlay
+        let startDiv = document.getElementById('start');
+        let gameOver = document.getElementById('game-over');
+            startDiv.style.display = 'none';
+            gameOver.style.display = 'none';
+    }
+
+function gameOver() {
+        // stop the game 
+        clearInterval(runGame);
+        ctx.clearRect(0,0, game.width, game.height);
+        // reset the scores
+         p1Score = 0;
+         p2Score = 0;
+          // reload the entities
+          drawBall();
+          drawBricks();
+          collisionDetection();
+        // display GameOver modal
+        let gameOver = document.getElementById('game-over');
+            gameOver.style.display = 'block';
+
+        // start the game over
+        // document.location.reload();
+
+    }
 document.addEventListener("DOMContentLoaded", e => {
-    // console.log('app.js is connected');
     player1 = new Player('blue', 250, 570);
     player2 = new Player('green', 250, 10);
-    // const runGame = setInterval(gameLoop, 10);
-    
-
+    startGame();
 });
-
+document.addEventListener('click', startGame);
 document.addEventListener('keydown', movementHandler);
 
 

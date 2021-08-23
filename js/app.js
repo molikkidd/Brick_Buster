@@ -43,34 +43,7 @@ let p1Lives = document.getElementById('p1Lives');
 let liveScore = document.getElementById('liveScore');
 
 
-// // ====================== COLLISION DETECTION ======================= //
-// /**
-//  * @function crawler
-//  * @param {object<Crawler>} p1
-//  * @param {object<Crawler>} p2
-//  * @todo if the bottom of one below is above the other 
-//  * @todo if the top of one is above the bottom of another 
-//  * @todo if the right of one is right of the other left
-//  */
-function collisionDetection() {
-    for(let c = 0; c < brickColumnCount; c++) {
-        for(let r = 0; r<brickRowCount; r++) {
-            let b = bricks[c][r];
-            if(b.status == 1) {
-                if(x > b.x && x < b.x + brickWidth && y > b.y && y <b.y + brickHeight) {
-                    dy = -dy;
-                    b.status = 0;
-                    score++;
-                    if(score == brickRowCount*brickColumnCount) {
-                        alert('you win, congrats');
-                        document.location.reload();
-                    }
-                    // console.log("hit a brick");
-                }
-            }
-        }  
-    }
-}
+
 
 // ====================== ENTITIES ======================= //
 //**
@@ -112,9 +85,34 @@ function drawBricks() {
         }
     }
 }
-
-
-
+// // ====================== COLLISION DETECTION ======================= //
+// /**
+//  * @function crawler
+//  * @param {object<Crawler>} p1
+//  * @param {object<Crawler>} p2
+//  * @todo if the bottom of one below is above the other 
+//  * @todo if the top of one is above the bottom of another 
+//  * @todo if the right of one is right of the other left
+//  */
+function collisionDetection() {
+    for(let c = 0; c < brickColumnCount; c++) {
+        for(let r = 0; r<brickRowCount; r++) {
+            let b = bricks[c][r];
+            if(b.status == 1) {
+                if(x > b.x && x < b.x + brickWidth && y > b.y && y <b.y + brickHeight) {
+                    dy = -dy;
+                    b.status = 0;
+                    score++;
+                    if(score == brickRowCount*brickColumnCount) {
+                        alert('you win, congrats');
+                        document.location.reload();
+                    }
+                    // console.log("hit a brick");
+                }
+            }
+        }  
+    }
+}
 // // ====================== GAME PROCESSES ======================= //
 //     /**
 //      * @function draw (draw the images on the screen)
@@ -149,6 +147,7 @@ function mouseMoveHandler (e) {
         paddleX = relativeX - paddleWidth/2;
     }
 }
+// GameLoop
 function draw() {
     ctx.clearRect(0, 0, game.width, game.height);
     drawBall();
@@ -192,7 +191,7 @@ function draw() {
             }
         }
     }
-    // gameLoop for key movements 
+    // key movements 
     if (rightPressed && paddleX < game.width - paddleWidth) {
     // how many incremenets the paddle will move
         paddleX += 7;
@@ -247,7 +246,9 @@ function startGame(e) {
 
 function gameOver() {
     // stop the animation
-        cancelAnimationFrame(draw);
+    ctx.clearRect(0,0, game.width, game.height);
+
+    cancelAnimationFrame(draw);
     // display GameOver modal
     let gameOver = document.getElementById('game-over');
         gameOver.style.display = 'block';
