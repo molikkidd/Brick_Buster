@@ -11,22 +11,25 @@
 </head>
 <body>
    
-   
+    <div id="p1Winner" style="display: none;">
+            <img src="/Users/mzk/Desktop/Unit-1-project/Brick_Buster/img/giphy.gif" alt="image">
+    </div>
 <!-- Winner one and two Modal -->  
     <div id="container">
         <aside id="top-left"><h2>Brick Buster</h2></aside>
         <aside id="top-right"><h2 id="p2Lives">P2: Score</h2></aside>
         <main>
+          
              <!-- Start Overlay -->
         <div id="start" style="display: block">
         <a href="#" >Start Game</a>          
         </div>
-
         <!-- GameOver Overlay -->
         <div id="game-over" style="display: none" data-toggle="modal" data-target="#exampleModal">
             <h1>Game Over</h1>
             <a href="twoPlayer.html" >Play Again</a>
         </div>
+        
             <canvas id="game"><!-- play it, a game --></canvas>
         </main>
 

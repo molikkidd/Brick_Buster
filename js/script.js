@@ -57,7 +57,8 @@ const bricks = [];
 
 // CREATE PLAYERS
 class Player {
-    constructor(color,x,y) {
+    constructor(name,color,x,y) {
+        this.name = name;
         this.color = color;
         this.x = x;
         this.y = y;
@@ -180,7 +181,18 @@ function ballBoundaries() {
             p1Score++;
             // if player scores 3 times
             if(p1Score === 3) {
-                
+                let winBanner = document.getElementById('p1Winner');
+                let message = document.createElement('p');
+                    message.textContent = `${player1.name} ,YOU WON A SARCASTIC CONGRATULATIONS`;
+                    winBanner.appendChild(message);
+                    winBanner.style.display ='block';
+            
+                    winBanner.onclick = function() { 
+                            winBanner.style.display ='none'; 
+                            let gameOver = document.getElementById('game-over');
+                                gameOver.style.display = 'block';
+                                       
+                    }      
             gameOver();
                 
             } else {    
@@ -201,8 +213,18 @@ function ballBoundaries() {
             dy = -dy;
         } else {
             p2Score++;
-            if(p2Score === 1) {
-                
+            if(p2Score === 3) {
+                let winBanner = document.getElementById('p1Winner');
+                let message = document.createElement('p');
+                    message.textContent = `${player2.name}, YOU WON A SARCASTIC CONGRATULATIONS!!`;
+                    winBanner.appendChild(message);
+                    winBanner.style.display ='block';
+            
+                    winBanner.onclick = function() { 
+                            winBanner.style.display ='none'; 
+                            let gameOver = document.getElementById('game-over');
+                                gameOver.style.display = 'block';             
+                    }     
                 gameOver();
             } else {    
                 x = game.width/4;
@@ -264,13 +286,13 @@ function gameOver() {
           drawBricks();
           collisionDetection();
         // display GameOver modal
-       let gameOver = document.getElementById('game-over');
-            gameOver.style.display = 'block';
+         
     }
-    
+
+let clearBanner = setTimeout
 document.addEventListener("DOMContentLoaded", e => {
-    player1 = new Player('blue', 250, 570);
-    player2 = new Player('green', 250, 10);
+    player1 = new Player('Molik','blue', 250, 570);
+    player2 = new Player('MyOpp','green', 250, 10);
     startGame();
 });
 
