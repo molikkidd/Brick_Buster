@@ -24,7 +24,7 @@ let brickOffsetLeft = 30;
 let score = 0;
 // Dang, Can I live?
 let lives = 1;
-let tick;
+let runGame;
 let gameEnd = false;
 // ball coordinates
 var x = game.width/2;
@@ -161,10 +161,9 @@ function draw() {
 // will not work outside of the loop
     liveScore.textContent = 'SCORE: ' + score;
     p1Lives.textContent = 'LIVES: ' + lives;
-
 // set ball boundaries
     // Left and Right Boundaries
-    if(x + dx > game.width-ballRadius || x + dx < ballRadius) {
+    if(x + dx > game.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
     // Top boundary
@@ -173,7 +172,7 @@ function draw() {
         dy = -dy;
     } 
     // Bottom boundary 
-    else if (y + dy > game.height-ballRadius) {
+    else if (y + dy > game.height - ballRadius) {
         // space between the paddles
         if(x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
@@ -235,33 +234,34 @@ function startGame(e) {
     if(!e) {
         return;
     } else if (e.srcElement.localName === 'a'){
-        let runGame = setInterval(draw,5);
+        runGame = setInterval(draw,5);
         // requestAnimationFrame(draw)
         // Remove Div "Start Game" Overlay
     let startDiv = document.getElementById('start');
     let gameOver = document.getElementById('game-over');
         startDiv.style.display = 'none';
         gameOver.style.display = 'none';
-        return runGame;
+        // return runGame;
     } else {
         return;
     }
 }
 
 function gameOver() {
-
+    // clear canvas screen
+    ctx.clearRect(0,0, game.width, game.height);
+    runGame = clearInterval(runGame);
     //  // reset the game
     x = game.width/3;
     y = game.height-80;
     score = 0;
-    lives = 1;
-    // clear canvas screen
-    ctx.clearRect(0,0, game.width, game.height);
-    clearInterval(draw);
-    //     //     drawBall();
-    //     //     drawBricks();
-    //     //     drawPaddle();
-    //     // collisionDetection();
+    lives = 3;
+
+    let startDiv = document.getElementById('start');
+    let gameOver = document.getElementById('game-over');
+        startDiv.style.display = 'none';
+        gameOver.style.display = 'block';
+    
 }
 
 
@@ -275,3 +275,6 @@ document.addEventListener('DOMContentLoaded', e => {
     startGame();
 
 });
+
+
+

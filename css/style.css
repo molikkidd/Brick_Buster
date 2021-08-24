@@ -23,7 +23,7 @@
     }
   
     /* FlexBox for alignment of grid items */
-    #top-left, #top-right, #btm-left, #btm-right, #rightMenu {
+    #top-left, #top-right, #btm-left, #btm-right {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -64,6 +64,11 @@
     grid-area: rightMenu;
     background-image: url(/Users/mzk/Desktop/Unit-1-project/Brick_Buster/img/seamless-background-a-cartoon-brick-wall-vector-24247265.jpg);
     border: 3px solid black;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    padding: 100px 10px;
+    font-size: 22px;
     }
 
 /* Styling for links to player one and two games */
@@ -108,11 +113,9 @@ a:hover {
     color: #f9f3db;
     padding: 20px;
     position: fixed;
-    top: 45%;
-    left: 25%;
-    height: 200px;
-    width: 250px;
     text-align: center;
+    display: block;
+    margin: 250px 130px;
 }
 
 #start a, #game-over a {
@@ -122,8 +125,7 @@ a:hover {
     padding: 10px;
     border-radius: 15px;
     cursor: pointer;
-    display: block;
-    width: 200px;
+    width: 300px;
     text-align: center;
     font-size: 2em;
     display: inline-block;

@@ -36,6 +36,8 @@ let brickPadding = 120;
 let brickOffsetTop = game.height/3.33;
 let brickOffsetLeft = 40;
 let bricksLeft = 6;
+// Global Loop variable
+let runGame;
 // Brick layout
 const bricks = [];
     for (let c = 0; c < brickColumnCount; c++) {
@@ -44,8 +46,6 @@ const bricks = [];
             bricks[c][r] = { x: 0, y:0, status: 1};
         } 
 }
-
-let runGame;
 // ====================== ENTITIES ======================= //
 //**
 //  * @create player constructor
@@ -133,9 +133,6 @@ function movementHandler(e) {
     }
    
 } 
-
-
-
 /// ====================== HELPER FUNCTIONS ======================= //
 //     /**
 //      * @function startGame()
@@ -183,11 +180,9 @@ function ballBoundaries() {
             p1Score++;
             // if player scores 3 times
             if(p1Score === 3) {
-                // alert('PLAYA PLAYER WINNER #1');
-                // document.location.reload();
-                // clearInterval(runGame);
-                startGame();
-
+                
+            gameOver();
+                
             } else {    
                 // otherwise reset the ball
                 x = game.width/3;
@@ -206,10 +201,8 @@ function ballBoundaries() {
             dy = -dy;
         } else {
             p2Score++;
-            if(p2Score === 3) {
-                // alert('PLAYA PLAYER WINNER #2');
-                // document.location.reload();
-                // clearInterval(runGame);
+            if(p2Score === 1) {
+                
                 gameOver();
             } else {    
                 x = game.width/4;
@@ -248,12 +241,10 @@ function startGame(e) {
         if(!e) {
             return;
         } else if (e.srcElement.localName === 'a'){
-            let runGame = setInterval(gameLoop,5);
+             runGame = setInterval(gameLoop,5);
         } else {
             return;
-        }
-
-        
+        } 
     // Remove Div "Start Game" Overlay
         let startDiv = document.getElementById('start');
         let gameOver = document.getElementById('game-over');
@@ -273,18 +264,16 @@ function gameOver() {
           drawBricks();
           collisionDetection();
         // display GameOver modal
-        let gameOver = document.getElementById('game-over');
+       let gameOver = document.getElementById('game-over');
             gameOver.style.display = 'block';
-
-        // start the game over
-        // document.location.reload();
-
     }
+    
 document.addEventListener("DOMContentLoaded", e => {
     player1 = new Player('blue', 250, 570);
     player2 = new Player('green', 250, 10);
     startGame();
 });
+
 document.addEventListener('click', startGame);
 document.addEventListener('keydown', movementHandler);
 

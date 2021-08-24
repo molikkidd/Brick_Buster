@@ -12,25 +12,25 @@
     <title>Brick Buster</title>
 </head>
 <body>
-    <div id="start" >
-        <a href="#" >Start Game</a>          
-    </div>
-    <div id="game-over" style="display: none">
-        <h1>Game Over</h1>
-        <a href="#" >Play Again</a>
-    </div>
+ 
     <div id="container">
      
         <aside id="top-left"><h2 class="display-2">Brick Buster</h2></aside>
         <aside id="top-right"><h2 id="liveScore">SCORE: 0</h2></aside>
         <main>
-          
+            <div id="start" >
+                <a href="#" >Start Game</a>          
+            </div>
+            <div id="game-over" style="display: none">
+                <h1>Game Over</h1>
+                <a href="onePlayer.html" >Play Again</a>
+            </div>
             <canvas id="game" ><!-- play it, a game --></canvas>
             
         </main>
         <div id="rightMenu">
-                <a id="p1Start" href="onePlayer.html"  type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Use Left and Right Arrows">ONE</a>
-                <a id="p2Start" href="twoPlayer.html">TWO</a>
+                <a id="p1Start" href="onePlayer.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo Dolo">ONE</a>
+                <a id="p2Start" href="twoPlayer.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Dos Mas">TWO</a>
         </div>
 
         <aside id="btm-left"></aside>
