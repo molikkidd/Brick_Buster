@@ -15,23 +15,36 @@
    
 ### Create the canvas Objects
 
-I created functions to create all the game entities such as the ball, paddle and bricks.
+I created a Player constructor so that multiple players (Paddles) can be added, Then I created a function to draw the ball and obstacles (bricks).
 
 ```js
+class Player {
+    constructor(color,x,y) {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+        this.paddleWidth = 100;
+        this.paddleHeight = 20;
+
+        this.render = () => {
+            ctx.beginPath();
+            ctx.fillStyle = this.color;
+            ctx.rect(this.x, this.y, this.paddleWidth, this.paddleHeight);
+            ctx.fill();
+            ctx.closePath();
+        }  
+    }
+}
+// CREATE BALL
 function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "green";
-    ctx.fill();
-    ctx.closePath();
-}
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, game.height-paddleHeight, paddleWidth, paddleHeight);
     ctx.fillStyle = "red";
     ctx.fill();
     ctx.closePath();
+    
 }
+// CREATE BRICKS
 function drawBricks() {       
     for(let c = 0; c < brickColumnCount; c++) {
         for(let r = 0; r<brickRowCount; r++) {
@@ -51,7 +64,39 @@ function drawBricks() {
 }
 ```
 
-### Change the status of the Bricks
+### Add keyboard or Mouse functionality
+
+I use the Keyboard to keystrokes to set the movement of the paddles. Player One moves using left and right arrows and Player Two moves usesing A and 'D' keys. Thats enough space in between two people to play and enough space to smack someones hand away while playing to stop them from hitting the ball, because youre losing pretty bad. 
+
+```js
+function movementHandler(e) {
+    // you can track the keystrokes http://keycode.info/
+// players move left or right in 30 px increments
+    switch(e.which) {
+        // Left Arrow - 37 : LEFT PLAYER 1
+        case 37:
+            player1.x - 10 >= 0 ? player1.x -= 30 : null; 
+            break;
+        // Right Arrow - 39 : PLAYER 1
+        case 39:
+            player1.x + 10 <= game.width - 100 ? player1.x += 30 : null; 
+            break;
+        // A - 65 : LEFT PLAYER 2a
+        case 65:
+            player2.x - 10 >= 0 ? player2.x -= 30 : null; 
+            break;
+        // D - 68 : RIGHT PLAYER 2
+        case 68:
+            player2.x + 10 <= game.width - 100 ? player2.x += 30 : null; 
+            break;
+    }
+   
+} 
+```
+
+### Helper Functions
+
+I set the parameters for when the ball comes into collision with the brick and by changing the property 'status' from 1 to 0 in the one player mode, the brick would disappear, but in this example it is kept at 1. The left and right ball boundaries where set.
 
 ```js
 function collisionDetection() {
@@ -61,43 +106,133 @@ function collisionDetection() {
             if(b.status == 1) {
                 if(x > b.x && x < b.x + brickWidth && y > b.y && y <b.y + brickHeight) {
                     dy = -dy;
-                    b.status = 0;
-                    score++;
-                    if(score == brickRowCount*brickColumnCount) {
-                        alert('you win, congrats');
-                        document.location.reload();
-                    }
-                    // console.log("hit a brick");
+                    b.status = 1;
+                    console.log("hit a brick");
                 }
             }
         }  
     }
 }
+
+// MOVE THE BALL
+function ballBoundaries() {
+    // Left and Right Boundaries
+    if(x + dx > game.width - ballRadius || x + dx < ballRadius) {
+        // if contact go in opposite direction
+        dx = -dx;
+    } 
+    // Top Boundary
+    // Need to refactor to one if else statement
+    if( y + dy < ballRadius) {
+        // if the ball x hits with in the space of the paddle
+        if(x > player2.x && x < player2.x + paddleWidth || x > player2.x && x < player2.x + paddleWidth) {
+            // go in opposite direction
+            dy = -dy;
+        } else {
+            // if ball goes past boundary
+            // add point to player 1
+            p1Score++;
+            // if player scores 3 times
+            if(p1Score === 3) {
+                
+            gameOver();
+                
+            } else {    
+                // otherwise reset the ball
+                x = game.width/3;
+                y = game.height - 50;
+                dx = 2;
+                dy = -2;
+                paddleCenter = (game.width - 100)/2;
+            }    
+        }
+    }   
+//    Bottom Boundary
+    if (y + dy > game.height-ballRadius) {
+        // if the ball x hits with in the space of the paddle
+        if(x > player1.x && x < player1.x + 100 || x > player1.x && x < player1.x + 100) {
+            // go in opposite direction
+            dy = -dy;
+        } else {
+            p2Score++;
+            if(p2Score === 1) {
+                
+                gameOver();
+            } else {    
+                x = game.width/4;
+                y = game.height-100;
+                dx = 2;
+                dy = -2;
+                paddleCenter = (game.width - 100)/2;
+            }                
+        }
+    } 
+}
 ```
-### Add keyboard or Mouse functionality
+### GameLoop
+
+All the game objects where rendered or invoke in the game loop and the scores where updated live.
+
+----------------
 ```js
-function keyDownHandler (e) {
-    if(e.key == 'Right' || e.key == 'ArrowRight') {
-        rightPressed = true;
-    } else  if (e.key == 'Left' || e.key == 'ArrowLeft') {
-        leftPressed = true;
-    }
-}
-function keyUpHandler (e) {
-    if(e.key == 'Right' || e.key == 'ArrowRight') {
-        rightPressed = false;
-    } else  if (e.key == 'Left' || e.key == 'ArrowLeft') {
-        leftPressed = false;
-    }
-}
+function gameLoop () {
+    // refresh the whole canvas
+    ctx.clearRect(0,0, game.width, game.height);
+    // render all entities 
+    player1.render();
+    player2.render();
+    drawBricks();
+    drawBall();
+    ballBoundaries();
+    collisionDetection();
+    x += dx;
+    y += dy;
 
-function mouseMoveHandler (e) {
-    let relativeX = e.clientX - game.offsetLeft;
-    if(relativeX > 0 && relativeX < game.width) {
-        paddleX = relativeX - paddleWidth/2;
-    }
+    // update livescore
+    p2LiveScore.textContent = `PLAYER 2: ${p2Score}`; 
+    p1LiveScore.textContent = `PLAYER 1: ${p1Score}`;
 }
 ```
 
-   
-   
+### Start and Reset Game
+
+I set starting and resetting the game with seperate functions with a pop up display 
+
+-------------------
+```js
+function startGame(e) {
+
+    // if no click then return
+    // if clicked on "start game a tag then start" 
+        if(!e) {
+            return;
+        } else if (e.srcElement.localName === 'a'){
+             runGame = setInterval(gameLoop,5);
+        } else {
+            return;
+        } 
+    // Remove Div "Start Game" Overlay
+        let startDiv = document.getElementById('start');
+        let gameOver = document.getElementById('game-over');
+            startDiv.style.display = 'none';
+            gameOver.style.display = 'none';
+    }
+
+function gameOver() {
+        // stop the game 
+        clearInterval(runGame);
+        ctx.clearRect(0,0, game.width, game.height);
+        // reset the scores
+         p1Score = 0;
+         p2Score = 0;
+          // reload the entities
+          drawBall();
+          drawBricks();
+          collisionDetection();
+        // display GameOver modal
+       let gameOver = document.getElementById('game-over');
+            gameOver.style.display = 'block';
+    }
+``` 
+```js
+```
