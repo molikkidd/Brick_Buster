@@ -234,5 +234,4 @@ function gameOver() {
             gameOver.style.display = 'block';
     }
 ``` 
-```js
-```
+
