@@ -1,4 +1,6 @@
 # Brick_Buster
+![image](https://user-images.githubusercontent.com/28605078/130699331-b2701683-b870-4421-9c72-c7b252112be8.png)
+
 
 ### Brick Buster is a classic game that involves what the name suggest. You are bounce a ball off 3 walls, The Opposite side of you sits a grid of bricks that your ball will need to come in contact with in order to break the brick.
 
@@ -12,10 +14,13 @@
    #### - 2 Player Mode is a rendition of Pong mixed will Break Buster. Their are bricks in the middle of the game to add a basic level of complexity to the collision path of the ball.
    #### - Players play up to 5 points and who ever scores 5 first wins sarcastic kind words of congratulations. 
    
-   
+-------------------
+
 ### Create the canvas Objects
 
 I created a Player constructor so that multiple players (Paddles) can be added, Then I created a function to draw the ball and obstacles (bricks).
+
+-------------------
 
 ```js
 class Player {
@@ -63,10 +68,14 @@ function drawBricks() {
     }
 }
 ```
+-------------------
 
 ### Add keyboard or Mouse functionality
 
 I use the Keyboard to keystrokes to set the movement of the paddles. Player One moves using left and right arrows and Player Two moves usesing A and 'D' keys. Thats enough space in between two people to play and enough space to smack someones hand away while playing to stop them from hitting the ball, because youre losing pretty bad. 
+
+-------------------
+
 
 ```js
 function movementHandler(e) {
@@ -93,10 +102,15 @@ function movementHandler(e) {
    
 } 
 ```
+![image](https://user-images.githubusercontent.com/28605078/130698628-a2c5be6b-db54-4463-9d3f-515e7d819f77.png)
+
+-------------------
 
 ### Helper Functions
 
 I set the parameters for when the ball comes into collision with the brick and by changing the property 'status' from 1 to 0 in the one player mode, the brick would disappear, but in this example it is kept at 1. The left and right ball boundaries where set.
+
+-------------------
 
 ```js
 function collisionDetection() {
@@ -169,6 +183,9 @@ function ballBoundaries() {
     } 
 }
 ```
+
+-------------------
+
 ### GameLoop
 
 All the game objects where rendered or invoke in the game loop and the scores where updated live.
@@ -193,6 +210,7 @@ function gameLoop () {
     p1LiveScore.textContent = `PLAYER 1: ${p1Score}`;
 }
 ```
+-------------------
 
 ### Start and Reset Game
 
@@ -234,4 +252,5 @@ function gameOver() {
             gameOver.style.display = 'block';
     }
 ``` 
+![image](https://user-images.githubusercontent.com/28605078/130698668-6199dba2-e374-4182-8bae-c2e26cbf02e9.png)
 
