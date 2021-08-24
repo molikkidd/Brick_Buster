@@ -294,6 +294,8 @@ document.addEventListener("DOMContentLoaded", e => {
     player1 = new Player('Molik','blue', 250, 570);
     player2 = new Player('MyOpp','green', 250, 10);
     startGame();
+    gameLoop();
+
 });
 
 document.addEventListener('click', startGame);
