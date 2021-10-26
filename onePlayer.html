@@ -4,17 +4,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
-    <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="css/style.css">
     <title>Brick Buster</title>
 </head>
 <body>
- 
     <div id="container">
-     
         <aside id="top-left"><h2 class="display-2">Brick Buster</h2></aside>
         <aside id="top-right"><h2 id="liveScore">SCORE: 0</h2></aside>
         <main>
@@ -23,10 +18,9 @@
             </div>
             <div id="game-over" style="display: none">
                 <h1>Game Over</h1>
-                <a href="index.html" >Play Again</a>
+                <a href="onePlayer.html" >Play Again</a>
             </div>
-            <canvas id="game" ><!-- play it, a game --></canvas>
-            
+            <canvas id="game" ><!-- play it, a game --></canvas>   
         </main>
         <div id="rightMenu">
             <p class="text-white">
@@ -37,17 +31,13 @@
                 2 Player Mode: 
                 Use the 'A' & 'D' keys for player 2 movements and player 1 will use the left and right arrows.
             </p>
-                <a id="p1Start" href="index.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo Dolo">ONE</a>
+                <a id="p1Start" href="onePlayer.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo Dolo">ONE</a>
                 <a id="p2Start" href="twoPlayer.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Dos Mas">TWO</a>
         </div>
-
         <aside id="btm-left"></aside>
         <aside id="btm-right"><h2 id="p1Lives">LIVES: 3</h2></aside>
       </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-
-    <script src="js/app.js"></script> 
-    <!-- JavaScript Bundle with Popper -->
-   
+      <script src="js/app.js"></script> 
 </body>
 </html>

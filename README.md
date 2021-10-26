@@ -1,27 +1,91 @@
-# Brick_Buster
-![image](https://user-images.githubusercontent.com/28605078/130699331-b2701683-b870-4421-9c72-c7b252112be8.png)
+# `Brick_Buster`
 
+## What it Includes
 
-### Brick Buster is a classic game that involves what the name suggest. You are bounce a ball off 3 walls, The Opposite side of you sits a grid of bricks that your ball will need to come in contact with in order to break the brick.
+* HTML5 CANVAS
+* CSS
+* JavaScript
+* Bootstrap
 
+## About
 
-### Choose One or Two Players
+### A modern remake on a timeless classic. Control the paddle left and right to destroy as many bricks as you can without letting the ball go past! 
 
-#### 1 Player: For the one player mode use the mouse to move your paddle side to side.
-    
+### One Player Mode
+
+#### 1 Player: Control the paddle using the Mouse/Track pad to move the right to left. Option 2, use the left and right arrow to control the paddle.
+
+### Two Player Mode  
+
 #### 2 Player: Use the 'a' + 'd' keys for player 2 movements and player 1 will use the left and right arrows. 
     
-   #### - 2 Player Mode is a rendition of Pong mixed will Break Buster. Their are bricks in the middle of the game to add a basic level of complexity to the collision path of the ball.
-   #### - Players play up to 5 points and who ever scores 5 first wins sarcastic kind words of congratulations. 
-   
- ![image](https://user-images.githubusercontent.com/28605078/131001279-3938e363-e449-4c48-a5c7-718a44994ae5.png)
-
+#### - 2 Player Mode is a rendition of Pong mixed will Break Buster. Their are bricks in the middle of the game to add a basic level of complexity to the collision path of the ball.
+#### - Players play up to 5 points and who ever scores 5 first wins sarcastic kind words of congratulations. 
    
 -------------------
+## `1` Fork & Clone Project 
+
+## `2` Analyze File Structure
+
+```text
+├── css
+│   └── style.css
+├── img
+│   └── images...
+├── js
+│   └── app.js
+│   └── script.js
+├── onePlayer.html
+├── README.md
+├── twoPlayer.html
+```
+
+- `style.css`: The main file for styling the elements on the HTML canvas.
+- `img`: A folder holding the collection of images used on throughout the application.
+- `app.js`: The file holds the logic for the onePlayer mode.
+- `script.js`: The file holds the logic for the twoPlayer mode.
+- `onePlayer.html`: The structure of the one player game.
+- `README.md`: The main markdown file that written to explain the details your app.
+- `twoPlayer.html`: The structure of the two player game.
+
+## Create One Player HTML Canvas
+- add image for 
+
+```html
+<div id="container">
+        <aside id="top-left"><h2 class="display-2">Brick Buster</h2></aside>
+        <aside id="top-right"><h2 id="liveScore">SCORE: 0</h2></aside>
+        <main>
+            <div id="start" >
+                <a href="#" >Start Game</a>          
+            </div>
+            <div id="game-over" style="display: none">
+                <h1>Game Over</h1>
+                <a href="onePlayer.html" >Play Again</a>
+            </div>
+            <canvas id="game" ><!-- play it, a game --></canvas>   
+        </main>
+        <div id="rightMenu">
+            <p class="text-white">
+                1 Player Mode: 
+                Use the mouse to move your paddle side to side.
+            </p>
+            <p class="text-white">
+                2 Player Mode: 
+                Use the 'A' & 'D' keys for player 2 movements and player 1 will use the left and right arrows.
+            </p>
+                <a id="p1Start" href="onePlayer.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo Dolo">ONE</a>
+                <a id="p2Start" href="twoPlayer.html" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Dos Mas">TWO</a>
+        </div>
+        <aside id="btm-left"></aside>
+        <aside id="btm-right"><h2 id="p1Lives">LIVES: 3</h2></aside>
+```
+
+### Add your css and bootstrap links
 
 ### Create the canvas Objects
 
-I created a Player constructor so that multiple players (Paddles) can be added, Then I created a function to draw the ball and obstacles (bricks).
+Create a Player constructor so that multiple players (Paddles) can be added, Then create the ball and obstacles (bricks).
 
 -------------------
 
@@ -75,10 +139,9 @@ function drawBricks() {
 
 ### Add keyboard or Mouse functionality
 
-I use the Keyboard to keystrokes to set the movement of the paddles. Player One moves using left and right arrows and Player Two moves usesing A and 'D' keys. Thats enough space in between two people to play and enough space to smack someones hand away while playing to stop them from hitting the ball, because youre losing pretty bad. 
+I used the Keyboard strokes to set the movement of the paddles. Player One moves using left and right arrows and Player Two moves using A and 'D' keys. Thats enough space in between two people to play and enough space to smack someones hand away while playing, preventing them from hitting the ball, because youre losing pretty bad.
 
 -------------------
-
 
 ```js
 function movementHandler(e) {
@@ -111,7 +174,7 @@ function movementHandler(e) {
 
 ### Helper Functions
 
-I set the parameters for when the ball comes into collision with the brick and by changing the property 'status' from 1 to 0 in the one player mode, the brick would disappear, but in this example it is kept at 1. The left and right ball boundaries where set.
+    Set the parameters for when the ball comes into collision with the brick and by changing the property 'status' from 1 to 0 in the one player mode, the brick would disappear, but in this example it is kept at 1. The left and right ball boundaries where set.
 
 -------------------
 
@@ -194,6 +257,7 @@ function ballBoundaries() {
 All the game objects where rendered or invoke in the game loop and the scores where updated live.
 
 ----------------
+
 ```js
 function gameLoop () {
     // refresh the whole canvas
@@ -217,7 +281,7 @@ function gameLoop () {
 
 ### Start and Reset Game
 
-I set starting and resetting the game with seperate functions with a pop up display 
+I set starting and resetting the game with seperate functions with a pop up display
 
 -------------------
 ```js
